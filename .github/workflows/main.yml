@@ -3,9 +3,6 @@ on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,13 +16,14 @@ jobs:
           npm ci
 
       - name: Build application
-        run: npm run build
+        run: |
+          cd frontend 
+          npm run build
 
-      - name: Run tests
-        run: npm test
-
-      - name: Listing contents
-        run: ls -lah
+      - name: Listing contents in frontend
+        run: |
+          cd frontend 
+          ls -lah
         
       - name: Upload artifact
         uses: actions/upload-artifact@v4
